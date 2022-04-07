@@ -1,11 +1,9 @@
 <template>
-  <div class="home">
-    <h1>Hello vue app</h1>
-  </div>
+  <div><h1>Hello</h1></div>
 </template>
 
 <script>
 export default {
-  name: "HomeView",
+  name: "Home-View",
 };
 </script>
