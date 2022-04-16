@@ -26,9 +26,5 @@
       swiftly until it came time to implement the searching algorithms. I didn't
       want to remind myself so I challenged to come up with it myself.
     </p>
-    <h4>Key things I learned from this project</h4>
-    <ul>
-      <li></li>
-    </ul>
   </div>
 </template>

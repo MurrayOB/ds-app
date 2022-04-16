@@ -1,6 +1,6 @@
 <template>
   <div class="mt-2">
-    <!-- header -->
+    <!-- HEADER -->
     <div>
       <v-sheet
         color="grey lighten-4"
@@ -31,30 +31,26 @@
       </v-sheet>
     </div>
     <br />
-    <!-- grid -->
+    <!-- GRID -->
     <v-sheet rounded outlined height="60vh" width="100%">
+      <!-- ROWS -->
       <div
         style="display: flex"
         v-for="row in rows"
         :key="row"
         class="float-right block-container"
       >
+        <!-- COLUMNS -->
         <div v-for="col in cols" :key="col">
-          <!-- block and color -->
+          <!-- BLOCK COMPONENT -->
           <div
             class="block"
-            v-bind:class="{
-              'block-ai-bg': pM(row, col, aiPosition),
-              'block-myPackage-bg':
-                pM(row, col, myPackage) && !foundPackage(row, col),
-              'block-ai-visited-bg': hasVisited(row, col),
-              'block-ai-found-package-bg': foundPackage(row, col),
-            }"
+            v-bind:class="getBlockClass(row, col)"
             @click="setPackagePosition(row, col)"
           >
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <!-- icon -->
+                <!-- ICON -->
                 <v-icon
                   size="18"
                   class="ml-1 block-icon"
@@ -62,16 +58,10 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  {{
-                    pM(row, col, aiPosition)
-                      ? "mdi-robot"
-                      : hasVisited(row, col)
-                      ? "mdi-robot"
-                      : "mdi-package-down"
-                  }}
+                  {{ getBlockIcon(row, col) }}
                 </v-icon>
               </template>
-              <!-- Tooltip Message -->
+              <!-- TOOLTIP -->
               <span
                 >{{
                   pM(row, col, aiPosition) ? "AI: " : "Drop Package Here: "
@@ -107,6 +97,12 @@
 
 <script>
 import "./Grid.scss";
+//Notes:
+
+//When you want to block a path,
+//create a function that inserts -1 at the specifc index into the global array
+import Algorithms from "./algorithms.js";
+
 export default {
   name: "Grid-component",
   data: () => ({
@@ -125,38 +121,21 @@ export default {
     snackbar: false,
     msg: ``,
     snackbarSuccess: false,
+    mapArray: [],
   }),
   methods: {
     async play() {
       if (!this.validation()) return;
-
-      let map = this.createMapArray();
-      for (let i = 0; i < map.length; i++) {
-        //check if aiPos = packagePos
-        this.aiPosition.row = map[i][0];
-        this.aiPosition.col = map[i][1];
-
-        if (
-          this.aiPosition.row == this.myPackage.row &&
-          this.aiPosition.col == this.myPackage.col
-        ) {
-          this.msg = "Found";
-          this.snackbar = true;
-          this.snackbarSuccess = true;
-          return;
-        }
-        //add it to the hasVisited array and set current position of
-        this.aiHasVisited.push(map[i]);
-      }
-    },
-    createMapArray() {
-      let array = [];
-      for (let i = 1; i < this.rows + 1; i++) {
-        for (let j = 1; j < this.cols + 1; j++) {
-          array.push([i, j]);
-        }
-      }
-      return array;
+      const algorithms = new Algorithms(
+        this.mapArray,
+        this.aiPosition,
+        this.myPackage,
+        this.aiHasVisited
+      );
+      algorithms.linearSearch();
+      this.msg = "Found";
+      this.snackbar = true;
+      this.snackbarSuccess = true;
     },
     validation() {
       this.snackbar = false;
@@ -205,9 +184,41 @@ export default {
       location.reload();
     },
     sleep(milliseconds) {
-      console.log(milliseconds);
-      return new Promise((resolve) => setTimeout(resolve, 4));
+      //console.log(new Date().getMilliseconds());
+      return new Promise((resolve) => setTimeout(resolve, milliseconds));
     },
+    getBlockClass(row, col) {
+      if (this.foundPackage(row, col)) {
+        return "block-ai-found-package-bg";
+      }
+      if (this.pM(row, col, this.aiPosition)) {
+        return "block-ai-bg";
+      }
+      if (this.pM(row, col, this.myPackage) && !this.foundPackage(row, col)) {
+        return "block-myPackage-bg";
+      }
+      if (this.hasVisited(row, col)) {
+        return "block-ai-visited-bg";
+      }
+    },
+    getBlockIcon(row, col) {
+      if (this.pM(row, col, this.aiPosition)) {
+        return "mdi-robot";
+      }
+      if (this.hasVisited(row, col)) {
+        return "mdi-robot";
+      }
+      return "mdi-package-down";
+    },
+  },
+  mounted() {
+    let array = [];
+    for (let i = 1; i < this.rows + 1; i++) {
+      for (let j = 1; j < this.cols + 1; j++) {
+        array.push([i, j]);
+      }
+    }
+    this.mapArray = array;
   },
 };
 </script>

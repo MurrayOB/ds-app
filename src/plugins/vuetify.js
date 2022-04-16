@@ -5,8 +5,19 @@ import colors from "vuetify/lib/util/colors";
 Vue.use(Vuetify);
 
 export default new Vuetify({
-  primary: colors.green.accent3,
-  secondary: colors.deepOrange.lighten1,
-  lightGray: "grey lighten-3",
-  mode: "white",
+  theme: {
+    //dark: true,
+    themes: {
+      light: {
+        primary: "#64B5F6",
+        secondary: "#b0bec5",
+        anchor: "#8c9eff",
+      },
+      dark: {
+        primary: colors.red.darken1,
+        secondary: colors.red.lighten4,
+        accent: colors.indigo.base,
+      },
+    },
+  },
 });
