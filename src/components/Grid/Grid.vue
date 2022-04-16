@@ -65,7 +65,7 @@
                   {{
                     pM(row, col, aiPosition)
                       ? "mdi-robot"
-                      : hasVisited(row, col) || foundPackage
+                      : hasVisited(row, col)
                       ? "mdi-robot"
                       : "mdi-package-down"
                   }}
@@ -83,11 +83,21 @@
         </div>
       </div>
     </v-sheet>
-    <v-snackbar text v-model="snackbar" color="error" right>
+    <v-snackbar
+      text
+      v-model="snackbar"
+      :color="snackbarSuccess ? 'success' : 'error'"
+      right
+    >
       {{ msg }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn color="error" text v-bind="attrs" @click="snackbar = false">
+        <v-btn
+          :color="snackbarSuccess ? 'success' : 'error'"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
           Close
         </v-btn>
       </template>
@@ -114,22 +124,15 @@ export default {
     aiHasVisited: [],
     snackbar: false,
     msg: ``,
+    snackbarSuccess: false,
   }),
   methods: {
-    play() {
+    async play() {
       if (!this.validation()) return;
 
-      //let aiPos = [this.aiPosition.row, this.aiPosition.col];
-      //let packagePos = [this.myPackage.row, this.myPackage.col];
       let map = this.createMapArray();
-      //what we're looking for in the array is [[5, 23]]
-
-      //first attempt
-      //Find row
-      //[0, 0]
       for (let i = 0; i < map.length; i++) {
         //check if aiPos = packagePos
-        console.log(map[i]);
         this.aiPosition.row = map[i][0];
         this.aiPosition.col = map[i][1];
 
@@ -139,6 +142,7 @@ export default {
         ) {
           this.msg = "Found";
           this.snackbar = true;
+          this.snackbarSuccess = true;
           return;
         }
         //add it to the hasVisited array and set current position of
@@ -147,8 +151,8 @@ export default {
     },
     createMapArray() {
       let array = [];
-      for (let i = 0; i < this.rows; i++) {
-        for (let j = 0; j < this.cols; j++) {
+      for (let i = 1; i < this.rows + 1; i++) {
+        for (let j = 1; j < this.cols + 1; j++) {
           array.push([i, j]);
         }
       }
@@ -199,6 +203,10 @@ export default {
     },
     reset() {
       location.reload();
+    },
+    sleep(milliseconds) {
+      console.log(milliseconds);
+      return new Promise((resolve) => setTimeout(resolve, 4));
     },
   },
 };
