@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar elevation="0" app color="primary" dark>
       <v-btn icon class="ml-3">
-        <v-badge bottom color="blue" dot offset-x="10" offset-y="10">
+        <v-badge bottom color="red " dot offset-x="10" offset-y="10">
           <v-avatar color="white" size="40"></v-avatar>
         </v-badge>
       </v-btn>

@@ -9,7 +9,7 @@ export default new Vuetify({
     //dark: true,
     themes: {
       light: {
-        primary: "#64B5F6",
+        primary: colors.blue,
         secondary: "#b0bec5",
         anchor: "#8c9eff",
       },

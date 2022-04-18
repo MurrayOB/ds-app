@@ -32,14 +32,9 @@
     </div>
     <br />
     <!-- GRID -->
-    <v-sheet rounded outlined height="60vh" width="100%">
+    <v-sheet class="grid-container" rounded outlined height="60vh" width="100%">
       <!-- ROWS -->
-      <div
-        style="display: flex"
-        v-for="row in rows"
-        :key="row"
-        class="float-right block-container"
-      >
+      <div class="grid-container--row" v-for="row in rows" :key="row">
         <!-- COLUMNS -->
         <div v-for="col in cols" :key="col">
           <!-- BLOCK COMPONENT -->
@@ -124,7 +119,7 @@ export default {
     mapArray: [],
   }),
   methods: {
-    async play() {
+    play() {
       if (!this.validation()) return;
       const algorithms = new Algorithms(
         this.mapArray,
