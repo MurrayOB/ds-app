@@ -13,10 +13,13 @@
     </ul>
     <br />
     <h4>Phase 2.</h4>
-    <h5>Shortest Path Algorithms</h5>
+    <h5>Shortest Path Algorithms (Graph Traversal Algorithms)</h5>
     <ul>
       <li>1. Depth First Search</li>
-      <li>2. Breadth First Search</li>
+      <li>
+        2. Breadth First Search (Search connected edges before moving on to
+        search the connected vertices edges. )
+      </li>
     </ul>
     <br />
     <p>
@@ -34,6 +37,15 @@
       collect a package or item who had sensors and understood that the objects
       the robot didnt want to interact with responded with 1.
     </p>
+    <h4>Other Research:</h4>
+    <p>Binary Tree (Data Structure, each node has most 2 children)</p>
+    <h4>
+      Need to build a Graph Tree so you can move in more than 2 directions
+      (left, right, up, down):
+    </h4>
+    <p>Binary Tree (Data Structure, each node has most 2 children)</p>
+    <h3>Recursion:</h3>
+    <p>...</p>
   </div>
 </template>
 

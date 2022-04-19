@@ -5,7 +5,7 @@
 
   &--row {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-right: 4rem;
   }
 }
@@ -40,9 +40,34 @@
 
   &-ai-visited-bg {
     background-color: rgb(253, 161, 161);
+    &:hover {
+      background-color: rgb(254, 141, 141);
+    }
   }
 
   &-ai-found-package-bg {
     background-color: rgb(55, 214, 87) !important;
+  }
+
+  //SHORTEST PATH
+  &-wall {
+    background-color: rgb(255, 99, 99);
+    &:hover {
+      background-color: rgb(254, 141, 141);
+    }
+  }
+
+  &-starting-point {
+    background-color: rgb(133, 135, 252);
+    &:hover {
+      background-color: rgb(133, 135, 252);
+    }
+  }
+
+  &-destination {
+    background-color: rgb(55, 214, 87);
+    &:hover {
+      background-color: rgb(55, 214, 87);
+    }
   }
 }
