@@ -127,6 +127,7 @@
                 <v-icon
                   size="18"
                   class="ml-1 block-icon"
+                  v-bind:class="{ 'block-icon-dark': $vuetify.theme.dark }"
                   dark
                   v-bind="attrs"
                   v-on="on"

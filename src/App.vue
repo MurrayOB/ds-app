@@ -1,52 +1,48 @@
 <template>
   <v-app>
-    <v-app-bar elevation="0" app color="primary" dark>
-      <v-row>
-        <v-col>
-          <v-btn icon class="ml-3">
-            <v-badge bottom color="red" dot offset-x="10" offset-y="10">
-              <v-avatar color="white" size="40">
-                <img src="./assets/images/profile-pic.jpg" alt="Profile Pic" />
-              </v-avatar>
-            </v-badge>
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-toolbar-title class="font-weight-bold"
-            ><span
-              ><router-link
-                class="text-decoration-none white--text"
-                :to="{ name: 'home' }"
-                >Welcome</router-link
-              ></span
-            >
-            -
-            <span>
-              <router-link
-                :to="{ name: 'about' }"
-                class="subtitle-1 text-decoration-none white--text"
-                color="white"
-              >
-                See what this project is about
-              </router-link></span
-            ></v-toolbar-title
+    <!-- v-toolbar -->
+    <v-app-bar app elevation="0" color="primary" dark>
+      <v-btn icon class="ml-3">
+        <v-badge bottom color="red" dot offset-x="10" offset-y="10">
+          <v-avatar color="white" size="40">
+            <img src="./assets/images/profile-pic.jpg" alt="Profile Pic" />
+          </v-avatar>
+        </v-badge>
+      </v-btn>
+
+      <v-toolbar-title class="font-weight-bold"
+        ><span
+          ><router-link
+            class="text-decoration-none white--text"
+            :to="{ name: 'home' }"
+            >Welcome</router-link
+          ></span
+        >
+        -
+        <span>
+          <router-link
+            :to="{ name: 'about' }"
+            class="subtitle-1 text-decoration-none white--text"
+            color="white"
           >
-        </v-col>
-        <v-col> </v-col>
-        <v-col>
-          <v-switch
-            class="mt-5"
-            color="secondary"
-            v-model="theme"
-            inset
-          ></v-switch>
-        </v-col>
-        <v-col>
-          <v-btn @click.stop="drawer = !drawer" text color="white" dark>
-            <v-icon>mdi-menu</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
+            See what this project is about
+          </router-link></span
+        ></v-toolbar-title
+      >
+
+      <v-spacer></v-spacer>
+      <v-switch
+        :label="$vuetify.theme.dark ? 'Dark Mode' : 'Light Mode'"
+        class="mt-5"
+        color="secondary"
+        inset
+        v-model="$vuetify.theme.dark"
+      >
+      </v-switch>
+
+      <v-btn @click.stop="drawer = !drawer" text color="white" dark>
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -83,6 +79,7 @@ export default {
       { title: "Home", name: "home" },
       { title: "About", name: "about" },
       { title: "Content", name: "content" },
+      { title: "About Me", name: "about" },
     ],
   }),
 };

@@ -18,6 +18,10 @@
 
   &-icon {
     color: white;
+
+    &-dark {
+      color: #212121 !important;
+    }
   }
 
   &:hover {
