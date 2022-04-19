@@ -99,49 +99,7 @@
     </v-sheet>
     <!-- GRID -->
     <!-- SHORTEST PATH -->
-    <v-sheet
-      v-if="demonstrationType == 'Shortest Path'"
-      class="grid-container"
-      rounded
-      outlined
-      height="60vh"
-      width="100%"
-    >
-      <!-- ROWS -->
-      <div
-        class="grid-container--row"
-        v-for="(row, index) in mapArray"
-        :key="index"
-      >
-        <!-- COLUMNS -->
-        <div v-for="(col, idx) in row" :key="idx">
-          <!-- BLOCK COMPONENT -->
-          <div
-            class="block"
-            v-bind:class="getBlockClassSH(col)"
-            @click="performShortestPathAction(index, idx)"
-          >
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <!-- ICON -->
-                <v-icon
-                  size="18"
-                  class="ml-1 block-icon"
-                  v-bind:class="{ 'block-icon-dark': $vuetify.theme.dark }"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  {{ getBlockIconSH(col) }}
-                </v-icon>
-              </template>
-              <!-- TOOLTIP -->
-              <span>{{ getActionMessage() }}, Value: {{ col }}</span>
-            </v-tooltip>
-          </div>
-        </div>
-      </div>
-    </v-sheet>
+
     <v-snackbar
       text
       v-model="snackbar"
@@ -167,7 +125,7 @@
 <script>
 import "./Grid.scss";
 import Algorithms from "./algorithms.js";
-import Helpers from "./helpers.js";
+import Helpers from "../../utils/helpers.js";
 
 export default {
   name: "Grid-component",
@@ -197,10 +155,6 @@ export default {
     mapArray: [],
     mapSize: 0,
     mapSizeLabels: ["Small", "Medium", "Large"],
-    //SHORTEST PATH
-    shortestPathActionType: "Set Starting Position",
-    startingPosition: [],
-    endingPosition: [],
   }),
   methods: {
     play() {
@@ -289,79 +243,6 @@ export default {
       }
       return "mdi-package-down";
     },
-    //SHORTEST PATH ONLY METHODS:
-    performShortestPathAction(row, col) {
-      if (this.shortestPathActionType == "Create Wall") {
-        this.setPosition(1, row, col);
-      }
-
-      if (this.shortestPathActionType == "Set Starting Position") {
-        this.setPosition(2, row, col);
-      }
-
-      if (this.shortestPathActionType == "Set Destination") {
-        this.setPosition(3, row, col);
-      }
-    },
-    setPosition(type, row, col) {
-      if (this.mapArray[row][col] == type) {
-        this.mapArray[row][col] = 0;
-        this.mapArray.push(null);
-        this.mapArray.pop();
-        return;
-      }
-      this.mapArray[row][col] = type;
-      this.mapArray.push(null);
-      this.mapArray.pop();
-    },
-    getBlockClassSH(col) {
-      //check in array what the value is at row, col
-      //0 = freely move
-      if (col == 0) {
-        return "";
-      }
-      if (col == 1) {
-        return "block-wall";
-      }
-      if (col == 2) {
-        return "block-starting-point";
-      }
-      if (col == 3) {
-        return "block-destination";
-      }
-    },
-    getBlockIconSH(col) {
-      //check in array what the value is at row, col
-      if (col == 1) return "mdi-cancel";
-      if (col == 2) return "mdi-map-marker";
-      if (col == 3) return "mdi-crosshairs-gps";
-
-      if (this.shortestPathActionType == "Set Starting Position" && col == 0) {
-        return "mdi-map-marker";
-      }
-
-      if (this.shortestPathActionType == "Set Destination" && col == 0) {
-        return "mdi-crosshairs-gps";
-      }
-
-      if (this.shortestPathActionType == "Create Wall" && col == 0) {
-        return "mdi-cancel";
-      }
-    },
-    getActionMessage() {
-      if (this.shortestPathActionType == "Create Wall") {
-        return "Place wall";
-      }
-
-      if (this.shortestPathActionType == "Set Starting Position") {
-        return "Set Starting Position";
-      }
-
-      if (this.shortestPathActionType == "Set Destination") {
-        return "Set Destination";
-      }
-    },
-    //END SHORTEST PATH ONLY METHODS:
   },
   mounted() {
     //this.mapArray = Helpers.createSearchMap(this.rows, this.cols);

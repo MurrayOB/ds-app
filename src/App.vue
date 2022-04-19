@@ -77,6 +77,7 @@ export default {
     theme: false,
     items: [
       { title: "Home", name: "home" },
+      { title: "Shortest Path", name: "shortest-path" },
       { title: "About", name: "about" },
       { title: "Content", name: "content" },
       { title: "About Me", name: "about" },
