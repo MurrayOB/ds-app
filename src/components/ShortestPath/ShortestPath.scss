@@ -28,6 +28,13 @@
     background-color: rgb(205, 205, 205);
   }
 
+  &-visited {
+    background-color: rgb(198, 199, 255);
+    &:hover {
+      background-color: rgb(198, 199, 255);
+    }
+  }
+
   &-wall {
     background-color: rgb(255, 99, 99);
     &:hover {

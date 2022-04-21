@@ -21,22 +21,8 @@
               ticks="always"
               tick-size="4"
             ></v-slider>
-            <v-select
-              v-model="demonstrationType"
-              :items="['Shortest Path', 'Search Algorithms', 'Fun Game']"
-              label="Select Demonstration"
-            ></v-select>
           </v-col>
           <v-col v-if="demonstrationType == 'Shortest Path'">
-            <v-select
-              v-model="shortestPathActionType"
-              :items="[
-                'Set Starting Position',
-                'Set Destination',
-                'Create Wall',
-              ]"
-              label="Select Action"
-            ></v-select>
             <v-select
               :items="themes"
               label="Choose Theme"
@@ -245,29 +231,7 @@ export default {
     },
   },
   mounted() {
-    //this.mapArray = Helpers.createSearchMap(this.rows, this.cols);
-    if (this.demonstrationType == "Shortest Path") {
-      this.mapArray = Helpers.createShortestPathMap(this.rows, this.cols);
-      return;
-    }
-
-    if (this.demonstrationType == "Search Algorithms") {
-      this.mapArray = Helpers.createSearchMap(this.rows, this.cols);
-    }
-  },
-  watch: {
-    // whenever question changes, this function will run
-    demonstrationType(newVal, oldVal) {
-      console.log(oldVal);
-      if (newVal == "Shortest Path") {
-        this.mapArray = Helpers.createShortestPathMap(this.rows, this.cols);
-        return;
-      }
-
-      if (newVal == "Search Algorithms") {
-        this.mapArray = Helpers.createSearchMap(this.rows, this.cols);
-      }
-    },
+    this.mapArray = Helpers.createSearchMap(this.rows, this.cols);
   },
 };
 </script>

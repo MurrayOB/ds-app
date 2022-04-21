@@ -46,6 +46,28 @@
     <p>Binary Tree (Data Structure, each node has most 2 children)</p>
     <h3>Recursion:</h3>
     <p>...</p>
+    <h3>Queues:</h3>
+    <p>
+      Basically arrays except first in first out. We do this by pushing to array
+      and then using array.shift();
+    </p>
+    <h4>How a bindary tree is represented vs a graph tree in javascript:</h4>
+    <p>Tree</p>
+    <pre>
+     10
+    /  \
+   4    17
+  / \   / \
+ 1   9 12  18 </pre
+    >
+    <h3>Thoughts:</h3>
+    <p>
+      1. When doing my research and reminding myself of binary trees, I found it
+      always made sense to visualize it through the classic tree diagram but
+      that would never truly tell me what it was. Instead I found clarity in
+      knowing how it could be represented in terms of an object or array which
+      seemed to make more sense to me.
+    </p>
   </div>
 </template>
 

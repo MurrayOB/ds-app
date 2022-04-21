@@ -3,7 +3,13 @@
     <!-- v-toolbar -->
     <v-app-bar app elevation="0" color="primary" dark>
       <v-btn icon class="ml-3">
-        <v-badge bottom color="red" dot offset-x="10" offset-y="10">
+        <v-badge
+          bottom
+          :color="$vuetify.theme.dark ? 'blue lighten-3' : 'red lighten-3'"
+          dot
+          offset-x="10"
+          offset-y="10"
+        >
           <v-avatar color="white" size="40">
             <img src="./assets/images/profile-pic.jpg" alt="Profile Pic" />
           </v-avatar>

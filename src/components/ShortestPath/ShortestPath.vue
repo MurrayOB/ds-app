@@ -59,7 +59,7 @@
           <!-- BLOCK COMPONENT -->
           <div
             class="block"
-            v-bind:class="getBlockClassSH(col)"
+            v-bind:class="getBlockClass(index, idx)"
             @click="performShortestPathAction(index, idx)"
           >
             <v-tooltip top>
@@ -73,7 +73,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  {{ getBlockIconSH(col) }}
+                  {{ getBlockIcon(col) }}
                 </v-icon>
               </template>
               <!-- TOOLTIP -->
@@ -88,6 +88,7 @@
 <script>
 import "./ShortestPath.scss";
 import Helpers from "../../utils/helpers";
+import BreadthFirstSearch from "../../utils/shortest-path.js";
 
 export default {
   name: "Shortest-Path-component",
@@ -105,54 +106,63 @@ export default {
     startingPosition: [],
     endingPosition: [],
     mapArray: [],
+    visitedArray: [],
   }),
   methods: {
-    play() {},
+    play() {
+      console.log(this.startingPosition);
+      console.log(this.endingPosition);
+      const bfs = new BreadthFirstSearch(
+        this.mapArray,
+        this.startingPosition,
+        this.endingPosition,
+        this.visitedArray
+      );
+      bfs.bfs();
+    },
     reset() {
       location.reload();
     },
-    //SHORTEST PATH ONLY METHODS:
     performShortestPathAction(row, col) {
-      if (this.shortestPathActionType == "Create Wall") {
-        this.setPosition(1, row, col);
-      }
+      // if (this.shortestPathActionType == "Create Wall") {
+      //   this.setPosition(1, row, col);
+      // }
 
       if (this.shortestPathActionType == "Set Starting Position") {
-        this.setPosition(2, row, col);
+        this.setStartingPosition(row, col);
       }
 
       if (this.shortestPathActionType == "Set Destination") {
-        this.setPosition(3, row, col);
+        this.setEndingPosition(row, col);
       }
     },
-    setPosition(type, row, col) {
-      if (this.mapArray[row][col] == type) {
-        this.mapArray[row][col] = 0;
-        this.mapArray.push(null);
-        this.mapArray.pop();
-        return;
-      }
-      this.mapArray[row][col] = type;
-      this.mapArray.push(null);
-      this.mapArray.pop();
+    setStartingPosition(row, col) {
+      this.startingPosition = [row, col];
     },
-    getBlockClassSH(col) {
+    setEndingPosition(row, col) {
+      this.endingPosition = [row, col];
+    },
+    getBlockClass(row, col) {
       //check in array what the value is at row, col
       //0 = freely move
-      if (col == 0) {
-        return "";
-      }
-      if (col == 1) {
-        return "block-wall";
-      }
-      if (col == 2) {
+      const hasVisited = this.visitedArray.some((el) => {
+        if (el[0] == row && el[1] == col) {
+          return true;
+        }
+        return false;
+      });
+      if (hasVisited) return "block-visited";
+      // if (value == 1) {
+      //   return "block-wall";
+      // }
+      if (row == this.startingPosition[0] && col == this.startingPosition[1]) {
         return "block-starting-point";
       }
-      if (col == 3) {
+      if (row == this.endingPosition[0] && col == this.endingPosition[1]) {
         return "block-destination";
       }
     },
-    getBlockIconSH(col) {
+    getBlockIcon(col) {
       //check in array what the value is at row, col
       if (col == 1) return "mdi-cancel";
       if (col == 2) return "mdi-map-marker";
@@ -184,7 +194,6 @@ export default {
       }
     },
   },
-  mounted() {},
   beforeMount() {
     this.mapArray = Helpers.createShortestPathMap(this.rows, this.cols);
   },
