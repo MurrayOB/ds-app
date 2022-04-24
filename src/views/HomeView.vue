@@ -2,7 +2,10 @@
   <div class="section">
     <div class="ml-3">
       <h1>Welcome</h1>
-      <p>Please see this web app's pages.</p>
+      <p>
+        View shortest path algorithm, other algorithms, some learngin material
+        and my personal page.
+      </p>
       <br />
     </div>
     <div>
@@ -14,9 +17,7 @@
               <p class="text-h4 text--primary font-weight-light">
                 Shortest Path
               </p>
-              <p>
-                Interact with demonstration and see the shortest path in action.
-              </p>
+              <p>Interact with demo and see the shortest path in action.</p>
               <!-- <div class="text--primary">INTERACT</div> -->
             </v-card-text>
             <v-card-actions>

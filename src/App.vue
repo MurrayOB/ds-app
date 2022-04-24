@@ -53,6 +53,11 @@
 
     <v-main>
       <router-view />
+      <div style="float: right">
+        <p class="font-weight-light text-caption mr-7">
+          Copyright © 2021 Murray O'Brien. All Rights Reserved
+        </p>
+      </div>
     </v-main>
 
     <v-navigation-drawer app v-model="drawer" temporary absolute right>
