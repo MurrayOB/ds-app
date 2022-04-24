@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ContentView from "../views/ContentView.vue";
 import ShortestPathView from "../views/ShortestPath.vue";
+import MoreAlgorithmsView from "../views/MoreAlgorithmsView.vue";
 
 Vue.use(VueRouter);
 
@@ -18,8 +19,13 @@ const routes = [
     component: ShortestPathView,
   },
   {
-    path: "/content",
-    name: "content",
+    path: "/more-algorithms",
+    name: "more-algorithms",
+    component: MoreAlgorithmsView,
+  },
+  {
+    path: "/learning-material",
+    name: "learning-material",
     component: ContentView,
   },
   {

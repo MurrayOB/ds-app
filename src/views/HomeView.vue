@@ -1,14 +1,11 @@
 <template>
   <div class="section">
-    <Grid></Grid>
+    <h1>Welcome</h1>
   </div>
 </template>
 
 <script>
-import Grid from "../components/Grid/Grid.vue";
-
 export default {
-  components: { Grid },
   name: "Home-View",
 };
 </script>

@@ -84,8 +84,9 @@ export default {
     items: [
       { title: "Home", name: "home" },
       { title: "Shortest Path", name: "shortest-path" },
+      { title: "More Algorithms", name: "more-algorithms" },
       { title: "About", name: "about" },
-      { title: "Content", name: "content" },
+      { title: "Learning Material", name: "learning-material" },
       { title: "About Me", name: "about" },
     ],
   }),

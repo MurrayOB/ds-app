@@ -68,6 +68,11 @@
       knowing how it could be represented in terms of an object or array which
       seemed to make more sense to me.
     </p>
+    <p>
+      2. The Depth First and Breadth First algoirthms for exmaple need to have
+      obsticales inside of them, they shouldn't be used for searching for a
+      value deep in an array. A simple for loop would be better.
+    </p>
   </div>
 </template>
 

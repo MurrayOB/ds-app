@@ -8,12 +8,46 @@ const Helpers = {
     }
     return array;
   },
-  createShortestPathMap(rows = 10, cols = 10) {
+  createShortestPathMap(
+    defaultMap = true,
+    rows = 10,
+    cols = 10,
+    endPosition = [8, 2]
+  ) {
+    if (defaultMap) {
+      // return (this.mapArray = [
+      //   [0, 1, 1, 1, 0, 1, 1, 0, 1],
+      //   [1, 1, 0, 0, 0, 0, 0, 0, 0],
+      //   [1, 1, 1, 1, 1, 0, 1, 1, 0],
+      //   [0, 1, 1, 0, 0, 0, 0, 0, 0],
+      //   [0, 1, 1, 0, 0, 0, 0, 0, 1],
+      //   [1, 1, 0, 0, 0, 1, 1, 1, 0],
+      //   [1, 0, 0, 0, 1, 1, 0, 1, 1],
+      //   [1, 0, 1, 0, 0, 1, 0, 1, 1],
+      //   [1, 0, 2, 1, 0, 1, 1, 1, 1],
+      // ]);
+      return (this.mapArray = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 2],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 1],
+        [1, 1, 0, 0, 0, 1, 1, 1, 0],
+        [1, 0, 0, 0, 1, 1, 0, 1, 1],
+        [1, 0, 1, 0, 0, 1, 0, 1, 1],
+        [1, 0, 2, 1, 0, 1, 1, 1, 1],
+      ]);
+    }
+
     let array = [];
     for (let i = 1; i < rows + 1; i++) {
       let column = [];
       for (let j = 1; j < cols + 1; j++) {
-        column.push(0);
+        if (i == endPosition[0] && j == endPosition[1]) {
+          column.push(2);
+        } else {
+          column.push(0);
+        }
       }
       array.push(column);
     }
