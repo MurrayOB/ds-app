@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import "../../src/assets/scss/home-view.scss";
+//import "../../src/assets/scss/home-view.scss";
 
 export default {
   name: "Home-View",
