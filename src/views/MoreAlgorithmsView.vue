@@ -7,7 +7,7 @@
 <script>
 import Grid from "../components/Grid/Grid.vue";
 export default {
-  component: Grid,
+  components: { Grid },
   name: "More-Algorithms-View",
 };
 </script>

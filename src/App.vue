@@ -21,17 +21,17 @@
           ><router-link
             class="text-decoration-none white--text"
             :to="{ name: 'home' }"
-            >Welcome</router-link
+            >Data Structures and Algorithms</router-link
           ></span
         >
         -
         <span>
           <router-link
-            :to="{ name: 'about' }"
+            :to="{ name: getRouteName() }"
             class="subtitle-1 text-decoration-none white--text"
             color="white"
           >
-            See what this project is about
+            {{ getRouteName() }}
           </router-link></span
         ></v-toolbar-title
       >
@@ -85,10 +85,14 @@ export default {
       { title: "Home", name: "home" },
       { title: "Shortest Path", name: "shortest-path" },
       { title: "More Algorithms", name: "more-algorithms" },
-      { title: "About", name: "about" },
       { title: "Learning Material", name: "learning-material" },
       { title: "About Me", name: "about" },
     ],
   }),
+  methods: {
+    getRouteName() {
+      return this.$route.name;
+    },
+  },
 };
 </script>
