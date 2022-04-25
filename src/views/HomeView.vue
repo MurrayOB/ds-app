@@ -3,7 +3,7 @@
     <div class="ml-3">
       <h1>Welcome</h1>
       <p>
-        View shortest path algorithm, other algorithms, some learngin material
+        View shortest path algorithm, other algorithms, some learning material
         and my personal page.
       </p>
       <br />
