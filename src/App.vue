@@ -72,6 +72,9 @@
         >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
+        <v-list-item href="https://www.murrayobrien.me" link>
+          <v-list-item-title>About Me</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   </v-app>
@@ -90,7 +93,6 @@ export default {
       { title: "Shortest Path", name: "shortest-path" },
       { title: "More Algorithms", name: "more-algorithms" },
       { title: "Learning Material", name: "learning-material" },
-      { title: "About Me", name: "about" },
     ],
   }),
   methods: {

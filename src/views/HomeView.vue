@@ -27,22 +27,6 @@
           </v-card>
         </v-col>
         <!-- MORE ALGORITHMS -->
-        <v-col>
-          <v-card outlined :to="'/more-algorithms'" class="mx-auto home-card">
-            <v-card-text>
-              <br />
-              <p class="text-h4 text--primary font-weight-light">
-                More Algorithms
-              </p>
-              <p>Interact with more algorithms such as ...</p>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn text color="primary"> See Demonstration </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row>
         <!-- LEARNING MATERIAL -->
         <v-col>
           <v-card outlined :to="'/learning-material'" class="mx-auto home-card">
@@ -61,8 +45,24 @@
             </v-card-actions>
           </v-card>
         </v-col>
+        <!-- <v-col>
+          <v-card outlined :to="'/more-algorithms'" class="mx-auto home-card">
+            <v-card-text>
+              <br />
+              <p class="text-h4 text--primary font-weight-light">
+                More Algorithms
+              </p>
+              <p>Interact with more algorithms such as ...</p>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn text color="primary"> See Demonstration </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col> -->
+      </v-row>
+      <v-row>
         <!-- ABOUT ME -->
-        <v-col>
+        <v-col lg="6">
           <v-card
             outlined
             href="https://www.murrayobrien.me/"

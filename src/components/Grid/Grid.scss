@@ -1,77 +1,77 @@
-.grid-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+// .grid-container {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
 
-  &--row {
-    display: flex;
-    justify-content: center;
-    margin-right: 4rem;
-  }
-}
+//   &--row {
+//     display: flex;
+//     justify-content: center;
+//     margin-right: 4rem;
+//   }
+// }
 
-.block {
-  border: 1px solid rgb(212, 212, 212);
-  height: 30px;
-  width: 30px;
-  cursor: pointer;
+// .block {
+//   border: 1px solid rgb(212, 212, 212);
+//   height: 30px;
+//   width: 30px;
+//   cursor: pointer;
 
-  &-icon {
-    color: white;
+//   &-icon {
+//     color: white;
 
-    &-dark {
-      color: #212121 !important;
-    }
-  }
+//     &-dark {
+//       color: #212121 !important;
+//     }
+//   }
 
-  &:hover {
-    background-color: rgb(205, 205, 205);
-  }
+//   &:hover {
+//     background-color: rgb(205, 205, 205);
+//   }
 
-  &-ai-bg {
-    background-color: rgb(255, 99, 99);
-    &:hover {
-      background-color: rgb(254, 141, 141);
-    }
-  }
+//   &-ai-bg {
+//     background-color: rgb(255, 99, 99);
+//     &:hover {
+//       background-color: rgb(254, 141, 141);
+//     }
+//   }
 
-  &-myPackage-bg {
-    background-color: rgb(133, 135, 252);
-    &:hover {
-      background-color: rgb(133, 135, 252);
-    }
-  }
+//   &-myPackage-bg {
+//     background-color: rgb(133, 135, 252);
+//     &:hover {
+//       background-color: rgb(133, 135, 252);
+//     }
+//   }
 
-  &-ai-visited-bg {
-    background-color: rgb(253, 161, 161);
-    &:hover {
-      background-color: rgb(254, 141, 141);
-    }
-  }
+//   &-ai-visited-bg {
+//     background-color: rgb(253, 161, 161);
+//     &:hover {
+//       background-color: rgb(254, 141, 141);
+//     }
+//   }
 
-  &-ai-found-package-bg {
-    background-color: rgb(55, 214, 87) !important;
-  }
+//   &-ai-found-package-bg {
+//     background-color: rgb(55, 214, 87) !important;
+//   }
 
-  //SHORTEST PATH
-  &-wall {
-    background-color: rgb(255, 99, 99);
-    &:hover {
-      background-color: rgb(254, 141, 141);
-    }
-  }
+//   //SHORTEST PATH
+//   &-wall {
+//     background-color: rgb(255, 99, 99);
+//     &:hover {
+//       background-color: rgb(254, 141, 141);
+//     }
+//   }
 
-  &-starting-point {
-    background-color: rgb(133, 135, 252);
-    &:hover {
-      background-color: rgb(133, 135, 252);
-    }
-  }
+//   &-starting-point {
+//     background-color: rgb(133, 135, 252);
+//     &:hover {
+//       background-color: rgb(133, 135, 252);
+//     }
+//   }
 
-  &-destination {
-    background-color: rgb(55, 214, 87);
-    &:hover {
-      background-color: rgb(55, 214, 87);
-    }
-  }
-}
+//   &-destination {
+//     background-color: rgb(55, 214, 87);
+//     &:hover {
+//       background-color: rgb(55, 214, 87);
+//     }
+//   }
+// }

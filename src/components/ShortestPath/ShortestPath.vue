@@ -20,9 +20,9 @@
               item-value="value"
             ></v-select>
             <v-select
-              :items="themes"
+              :items="exampleArrays"
               label="Examples"
-              v-model="selectedTheme"
+              v-model="selectedArray"
               item-text="label"
               item-value="value"
             ></v-select>
@@ -40,7 +40,20 @@
           </v-col>
           <v-col align-self="center">
             <v-btn text color="secondary" @click="reset()">reset</v-btn>
-            <v-btn color="primary" @click="play()">play</v-btn>
+            <v-btn
+              v-if="!loading"
+              color="primary"
+              @click="
+                loading = !loading;
+                play();
+              "
+              >play</v-btn
+            >
+            <v-progress-circular
+              v-if="loading"
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
             <v-btn color="primary" @click="saveArray()">save</v-btn>
           </v-col>
         </v-row>
@@ -48,7 +61,13 @@
     </div>
     <br />
     <!-- GRID -->
-    <v-sheet class="grid-container" rounded outlined height="60vh" width="100%">
+    <v-sheet
+      class="grid-container pt-6 pb-6"
+      rounded
+      outlined
+      height="100%"
+      width="100%"
+    >
       <div
         class="grid-container--row"
         v-for="(row, index) in mapArray.length"
@@ -91,8 +110,9 @@
       v-model="snackbar"
       :color="snackbarSuccess ? 'success' : 'error'"
       right
+      class="font-weight-bold"
     >
-      {{ msg }}
+      <span class="subtitle-1 font-weight-regular mt-3">{{ msg }}</span>
 
       <template v-slot:action="{ attrs }">
         <v-btn
@@ -110,13 +130,14 @@
 <script>
 import "./ShortestPath.scss";
 import Helpers from "../../utils/helpers";
-import { Solve } from "../../utils/shortest-path.js";
-import Algorithms from "../../utils/algorithms.js";
-import { SolveShort } from "../../utils/dfs";
+// import { Solve } from "../../utils/shortest-path.js";
+//import Algorithms from "../../utils/algorithms.js";
+import { SolveShort } from "../../utils/depth-first-search";
 
 export default {
   name: "Shortest-Path-component",
   data: () => ({
+    loading: false,
     rows: 10,
     cols: 10,
     themes: [
@@ -127,13 +148,28 @@ export default {
     selectedTheme: { label: "Basic", value: 0 },
     shortestPathActionType: "Set Starting Position",
     startingPosition: [0, 0],
-    endingPosition: [6, 5],
+    endingPosition: [5, 4],
     mapArray: [],
     visitedArray: [],
+    selectedArray: {
+      label: "The Obvious shortest path.",
+      value: [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 2, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+    },
     exampleArrays: [
       {
-        name: "The Obvious shortest route",
-        map: [
+        label: "The Obvious shortest route",
+        value: [
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
           [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -146,55 +182,75 @@ export default {
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ],
       },
+      {
+        label: "The maze",
+        value: [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+          [0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+          [0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
+          [0, 1, 0, 1, 1, 2, 1, 0, 1, 0],
+          [0, 1, 0, 1, 1, 1, 1, 0, 1, 0],
+          [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+          [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ],
+      },
     ],
     snackbar: false,
     msg: ``,
     snackbarSuccess: false,
-    alg: 2,
   }),
   methods: {
-    async play() {
+    play() {
       this.visitedArray = [];
-
-      if (this.alg == 0) {
-        const algorithms = new Algorithms(
-          this.mapArray,
-          this.startingPosition,
-          this.endingPosition,
-          this.visitedArray
-        );
-        algorithms.linearSearch();
+      let startTime = performance.now();
+      let res = SolveShort(
+        this.mapArray,
+        this.startingPosition,
+        this.endingPosition
+      );
+      let endTime = performance.now();
+      let arr = res[0];
+      if (!arr) {
+        this.snackbar = true;
+        this.msg = "Either a point must be set or the path is impossible.";
+        this.snackbarSuccess = false;
+        this.loading = false;
         return;
       }
-
-      if (this.alg == 1) {
-        this.visitedArray = Solve(this.startingPosition, this.endingPosition);
-        return;
-      }
-
-      console.log(this.startingPosition);
-      console.log(this.endingPosition);
-      if (this.alg == 2) {
-        console.log("Shortest Path");
-        let res = SolveShort(
-          this.mapArray,
-          this.startingPosition,
-          this.endingPosition
-        );
-        console.log(res);
-        let arr = res[0];
-        arr.forEach((el, i) => {
-          setTimeout(() => {
-            this.visitedArray.push(el[1]);
-          }, i * 50);
-        });
-      }
+      arr.forEach((el, i) => {
+        setTimeout(() => {
+          this.visitedArray.push(el[1]);
+        }, i * 50);
+      });
+      this.loading = false;
+      this.snackbar = true;
+      this.msg = "Route found. Computed in " + (endTime - startTime) + "ms";
+      this.snackbarSuccess = true;
     },
     reset() {
-      this.mapArray = Helpers.createShortestPathMap(false, 10, 10, [6, 6]);
+      this.snackbar = false;
+      let row = Math.floor(Math.random() * (9 - 0 + 1) + 0);
+      let col = Math.floor(Math.random() * (9 - 0 + 1) + 0);
+      this.mapArray = Helpers.createShortestPathMap(false, 10, 10, [row, col]);
       this.startingPosition = [0, 0];
-      this.endingPosition = [3, 3];
+      this.endingPosition = [row, col];
       this.visitedArray = [];
+      this.randomize(row, col);
+    },
+    randomize(endRow, endCol) {
+      for (let i = 0; i < 60; i++) {
+        let row = Math.floor(Math.random() * (9 - 0 + 1) + 0);
+        let col = Math.floor(Math.random() * (9 - 0 + 1) + 0);
+
+        if (row !== 0 && col !== 0) {
+          if (row !== endRow && col !== endCol) {
+            this.mapArray[row][col] = 1;
+          }
+        }
+      }
     },
     validation() {
       if (this.startingPosition == [] || this.endingPosition == []) {
@@ -223,15 +279,19 @@ export default {
     },
     //REMEMBER TO RESET 2 IF PRESSED TWICE OR MORE
     setEndingPosition(row, col) {
+      this.mapArray[this.endingPosition[0]][this.endingPosition[1]] = 0;
       this.endingPosition = [row, col];
       this.mapArray.push(0);
       this.mapArray[row][col] = 2;
       this.mapArray.pop();
     },
     setWall(row, col) {
-      console.log("Set Wall");
       this.mapArray.push(0);
-      this.mapArray[row][col] = 1;
+      if (this.mapArray[row][col] == 1) {
+        this.mapArray[row][col] = 0;
+      } else {
+        this.mapArray[row][col] = 1;
+      }
       this.mapArray.pop();
     },
     hasVisited(row, col) {
@@ -301,12 +361,13 @@ export default {
     },
   },
   beforeMount() {
-    this.mapArray = Helpers.createShortestPathMap(
-      false,
-      10,
-      10,
-      this.endingPosition
-    );
+    this.mapArray = JSON.parse(JSON.stringify(this.selectedArray.value));
+    // this.mapArray = Helpers.createShortestPathMap(
+    //   false,
+    //   10,
+    //   10,
+    //   this.endingPosition
+    // );
   },
 };
 </script>
