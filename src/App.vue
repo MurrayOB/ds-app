@@ -2,7 +2,7 @@
   <v-app>
     <!-- v-toolbar -->
     <v-app-bar app elevation="0" color="primary" dark>
-      <v-btn icon class="ml-3">
+      <v-btn icon class="ml-3" href="https://www.murrayobrien.me">
         <v-badge
           bottom
           :color="$vuetify.theme.dark ? 'blue lighten-3' : 'red lighten-3'"
@@ -42,7 +42,8 @@
         class="mt-5"
         color="secondary"
         inset
-        v-model="$vuetify.theme.dark"
+        v-model="theme"
+        @change="setTheme()"
       >
       </v-switch>
 
@@ -60,7 +61,7 @@
       </div>
     </v-main>
 
-    <v-navigation-drawer app v-model="drawer" temporary absolute right>
+    <v-navigation-drawer app v-model="drawer" temporary fixed right>
       <v-list nav dense>
         <v-list-item
           active-class="primary--text text--accent-4"
@@ -81,11 +82,9 @@ import "./assets/scss/main.scss";
 
 export default {
   name: "App",
-
   data: () => ({
     drawer: false,
-    //trigger dark mode
-    theme: false,
+    theme: true,
     items: [
       { title: "Home", name: "home" },
       { title: "Shortest Path", name: "shortest-path" },
@@ -98,6 +97,22 @@ export default {
     getRouteName() {
       return this.$route.name;
     },
+    setTheme: function () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem("theme", this.$vuetify.theme.dark.toString());
+    },
+  },
+  mounted() {
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      if (theme == "true") {
+        this.$vuetify.theme.dark = true;
+        this.theme = true;
+      } else {
+        this.theme = false;
+        this.$vuetify.theme.dark = false;
+      }
+    }
   },
 };
 </script>

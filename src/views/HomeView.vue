@@ -10,8 +10,9 @@
     </div>
     <div>
       <v-row>
+        <!-- SHORTEST PATHH -->
         <v-col>
-          <v-card :to="'/shortest-path'" class="mx-auto home-card">
+          <v-card outlined :to="'/shortest-path'" class="mx-auto home-card">
             <v-card-text>
               <br />
               <p class="text-h4 text--primary font-weight-light">
@@ -25,8 +26,9 @@
             </v-card-actions>
           </v-card>
         </v-col>
+        <!-- MORE ALGORITHMS -->
         <v-col>
-          <v-card :to="'/more-algorithms'" class="mx-auto home-card">
+          <v-card outlined :to="'/more-algorithms'" class="mx-auto home-card">
             <v-card-text>
               <br />
               <p class="text-h4 text--primary font-weight-light">
@@ -41,8 +43,9 @@
         </v-col>
       </v-row>
       <v-row>
+        <!-- LEARNING MATERIAL -->
         <v-col>
-          <v-card :to="'/learning-material'" class="mx-auto home-card">
+          <v-card outlined :to="'/learning-material'" class="mx-auto home-card">
             <v-card-text>
               <br />
               <p class="text-h4 text--primary font-weight-light">
@@ -52,18 +55,19 @@
                 Read about this project and some of the programming concepts
                 that were used in this project.
               </p>
-              <!-- <div class="text--primary">
-                well meaning and kindly.<br />
-                "a benevolent smile"
-              </div> -->
             </v-card-text>
             <v-card-actions>
               <v-btn text color="primary"> Learn More </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
+        <!-- ABOUT ME -->
         <v-col>
-          <v-card href="https://www.murrayobrien.me/" class="mx-auto home-card">
+          <v-card
+            outlined
+            href="https://www.murrayobrien.me/"
+            class="mx-auto home-card"
+          >
             <v-card-text>
               <br />
               <p class="text-h4 text--primary font-weight-light">About Me</p>
@@ -85,13 +89,9 @@
                   About me: <v-icon color="primary">mdi-text-box</v-icon>
                 </v-col>
               </v-row>
-              <!-- <div class="text--primary">
-                well meaning and kindly.<br />
-                "a benevolent smile"
-              </div> -->
             </v-card-text>
             <v-card-actions>
-              <v-btn text color="primary "> Learn More </v-btn>
+              <v-btn text color="primary "> See page </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>

@@ -41,6 +41,7 @@
           <v-col align-self="center">
             <v-btn text color="secondary" @click="reset()">reset</v-btn>
             <v-btn color="primary" @click="play()">play</v-btn>
+            <v-btn color="primary" @click="saveArray()">save</v-btn>
           </v-col>
         </v-row>
       </v-sheet>
@@ -126,9 +127,26 @@ export default {
     selectedTheme: { label: "Basic", value: 0 },
     shortestPathActionType: "Set Starting Position",
     startingPosition: [0, 0],
-    endingPosition: [6, 6],
+    endingPosition: [6, 5],
     mapArray: [],
     visitedArray: [],
+    exampleArrays: [
+      {
+        name: "The Obvious shortest route",
+        map: [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 0, 0, 0, 2, 1, 1, 1, 1, 0],
+          [1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+          [0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+          [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ],
+      },
+    ],
     snackbar: false,
     msg: ``,
     snackbarSuccess: false,
@@ -278,9 +296,17 @@ export default {
         return "Set Destination";
       }
     },
+    saveArray() {
+      console.log(JSON.stringify(this.mapArray));
+    },
   },
   beforeMount() {
-    this.mapArray = Helpers.createShortestPathMap(false, 10, 10, [6, 6]);
+    this.mapArray = Helpers.createShortestPathMap(
+      false,
+      10,
+      10,
+      this.endingPosition
+    );
   },
 };
 </script>
