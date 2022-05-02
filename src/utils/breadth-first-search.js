@@ -9,8 +9,6 @@ export const Solve = (startingPosition = [0, 1], destination = [5, 3]) => {
     bfs() {
       let array = [];
       //set root
-      console.log("Starting Position");
-      console.log(startingPosition);
       array.push(startingPosition);
       visitedArray.push(startingPosition);
 
@@ -21,8 +19,6 @@ export const Solve = (startingPosition = [0, 1], destination = [5, 3]) => {
           currentNode[0] == destination[0] &&
           currentNode[1] == destination[1]
         ) {
-          console.log("found it");
-          console.log(currentNode);
           return visitedArray;
         }
 

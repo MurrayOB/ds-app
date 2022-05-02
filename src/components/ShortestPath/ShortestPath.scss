@@ -6,7 +6,7 @@
   &--row {
     display: flex;
     justify-content: center;
-    margin-right: 4rem;
+    align-items: center;
   }
 }
 
@@ -15,6 +15,16 @@
   height: 50px !important;
   width: 50px !important;
   cursor: pointer;
+
+  @media screen and (max-width: 1300px) {
+    height: 40px !important;
+    width: 40px !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    height: 30px !important;
+    width: 30px !important;
+  }
 
   &-icon {
     color: white;

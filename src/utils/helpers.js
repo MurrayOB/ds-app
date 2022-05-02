@@ -51,7 +51,6 @@ const Helpers = {
       }
       array.push(column);
     }
-    console.log(array);
     return array;
   },
 };
