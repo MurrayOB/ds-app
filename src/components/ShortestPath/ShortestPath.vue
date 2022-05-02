@@ -234,21 +234,24 @@ export default {
       this.snackbar = false;
       let row = Math.floor(Math.random() * (9 - 0 + 1) + 0);
       let col = Math.floor(Math.random() * (9 - 0 + 1) + 0);
+      this.endingPosition = [row, col];
       this.mapArray = Helpers.createShortestPathMap(false, 10, 10, [row, col]);
       this.startingPosition = [0, 0];
-      this.endingPosition = [row, col];
       this.visitedArray = [];
-      this.randomize(row, col);
+      this.randomize();
     },
-    randomize(endRow, endCol) {
+    randomize() {
       for (let i = 0; i < 60; i++) {
         let row = Math.floor(Math.random() * (9 - 0 + 1) + 0);
         let col = Math.floor(Math.random() * (9 - 0 + 1) + 0);
-
-        if (row !== 0 && col !== 0) {
-          if (row !== endRow && col !== endCol) {
-            this.mapArray[row][col] = 1;
-          }
+        console.log(this.endingPosition);
+        console.log(
+          JSON.stringify([row, col]) + " " + JSON.stringify(this.endingPosition)
+        );
+        if (
+          JSON.stringify([row, col]) !== JSON.stringify(this.endingPosition)
+        ) {
+          this.mapArray[row][col] = 1;
         }
       }
     },
@@ -358,6 +361,9 @@ export default {
     },
     saveArray() {
       console.log(JSON.stringify(this.mapArray));
+    },
+    changeMap() {
+      this.mapArray = this.selectedArray.value;
     },
   },
   beforeMount() {
