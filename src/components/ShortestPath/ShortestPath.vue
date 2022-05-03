@@ -153,7 +153,7 @@ export default {
     cols: 10,
     themes: [
       { label: "Basic", value: 0 },
-      { label: "Alternative", value: 1 },
+      // { label: "Alternative", value: 1 },
       { label: "Clean", value: 2 },
     ],
     selectedTheme: 2,
