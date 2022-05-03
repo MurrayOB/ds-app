@@ -10,6 +10,18 @@
         width="100%"
         class="pl-2 pr-2 pt-2 pb-2"
       >
+        <div class="pl-2 pr-2 pt-2 pb-2">
+          <v-row>
+            <v-col lg="10">
+              <p class="font-weight-light">
+                <span class="font-weight-bold">Description - </span>
+                Change the look of the map, see map examples and play around
+                with the map's algorithm by setting a starting and ending
+                position or creating walls for the algorithm to navigate.
+              </p>
+            </v-col>
+          </v-row>
+        </div>
         <v-row>
           <v-col>
             <v-select
@@ -18,6 +30,7 @@
               v-model="selectedTheme"
               item-text="label"
               item-value="value"
+              @change="changeTheme"
             ></v-select>
             <v-select
               :items="exampleArrays"
@@ -25,6 +38,7 @@
               v-model="selectedArray"
               item-text="label"
               item-value="value"
+              @change="changeMap"
             ></v-select>
           </v-col>
           <v-col>
@@ -33,28 +47,22 @@
               :items="[
                 'Set Starting Position',
                 'Set Destination',
-                'Create Wall',
+                'Create/Destroy Wall',
               ]"
               label="Select Action"
             ></v-select>
           </v-col>
           <v-col align-self="center">
             <v-btn text color="secondary" @click="reset()">reset</v-btn>
-            <v-btn
-              v-if="!loading"
-              color="primary"
-              @click="
-                loading = !loading;
-                play();
-              "
+            <v-btn v-if="!loading" color="primary" @click.stop="play()"
               >play</v-btn
             >
             <v-progress-circular
-              v-if="loading"
+              v-show="loading"
               indeterminate
               color="primary"
             ></v-progress-circular>
-            <v-btn color="primary" @click="saveArray()">save</v-btn>
+            <!-- <v-btn color="primary" @click="saveArray()">save</v-btn> -->
           </v-col>
         </v-row>
       </v-sheet>
@@ -80,27 +88,26 @@
             v-bind:class="getBlockClass(row - 1, col - 1)"
             @click="performShortestPathAction(row - 1, col - 1)"
           >
-            <p>{{ mapArray[index][idx] }}</p>
-            <!-- <v-tooltip top>
+            <!-- Numbers -->
+            <p v-if="selectedTheme == 0">{{ mapArray[index][idx] }}</p>
+            <!-- Tooltip -->
+
+            <v-tooltip top v-if="selectedTheme !== 0">
               <template v-slot:activator="{ on, attrs }">
-                
                 <v-icon
                   size="18"
-                  class="ml-1 block-icon"
+                  class="block-icon"
                   v-bind:class="{ 'block-icon-dark': $vuetify.theme.dark }"
                   dark
                   v-bind="attrs"
                   v-on="on"
                 >
-                  {{ getBlockIcon(row - 1, col - 1) }}
+                  {{ getBlockIcon(index, idx) }}
                 </v-icon>
               </template>
-              
-              <span
-                >{{ getActionMessage() }}, Value:, Pos: {{ row }},
-                {{ col }}</span
-              >
-            </v-tooltip> -->
+
+              <span>Lat: {{ row }}, Lng: {{ col }}</span>
+            </v-tooltip>
           </div>
         </div>
       </div>
@@ -145,7 +152,7 @@ export default {
       { label: "Alternative", value: 1 },
       { label: "Clean", value: 2 },
     ],
-    selectedTheme: { label: "Basic", value: 0 },
+    selectedTheme: 2,
     shortestPathActionType: "Set Starting Position",
     startingPosition: [0, 0],
     endingPosition: [5, 4],
@@ -204,6 +211,8 @@ export default {
   }),
   methods: {
     play() {
+      this.loading = true;
+
       this.visitedArray = [];
       let startTime = performance.now();
       let res = SolveShort(
@@ -225,35 +234,35 @@ export default {
           this.visitedArray.push(el[1]);
         }, i * 50);
       });
-      this.loading = false;
       this.snackbar = true;
       this.msg = "Route found. Computed in " + (endTime - startTime) + "ms";
       this.snackbarSuccess = true;
+
+      this.loading = false;
     },
     reset() {
       this.snackbar = false;
-      let row = Math.floor(Math.random() * (9 - 0 + 1) + 0);
-      let col = Math.floor(Math.random() * (9 - 0 + 1) + 0);
-      this.endingPosition = [row, col];
+      let row = Math.floor(Math.random() * (8 - 1 + 1) + 1);
+      let col = Math.floor(Math.random() * (8 - 1 + 1) + 1);
       this.mapArray = Helpers.createShortestPathMap(false, 10, 10, [row, col]);
       this.startingPosition = [0, 0];
       this.visitedArray = [];
-      this.randomize();
+      this.randomize(row, col);
     },
-    randomize() {
-      for (let i = 0; i < 60; i++) {
+    randomize(endingRow, startingRow) {
+      for (let i = 0; i < 52; i++) {
         let row = Math.floor(Math.random() * (9 - 0 + 1) + 0);
         let col = Math.floor(Math.random() * (9 - 0 + 1) + 0);
-        console.log(this.endingPosition);
-        console.log(
-          JSON.stringify([row, col]) + " " + JSON.stringify(this.endingPosition)
-        );
-        if (
-          JSON.stringify([row, col]) !== JSON.stringify(this.endingPosition)
-        ) {
-          this.mapArray[row][col] = 1;
+        if (row !== 0 && col !== 0) {
+          if (
+            row !== this.endingPosition[0] &&
+            col !== this.endingPosition[1]
+          ) {
+            this.mapArray[row][col] = 1;
+          }
         }
       }
+      this.setEndingPosition(endingRow - 1, startingRow - 1);
     },
     validation() {
       if (this.startingPosition == [] || this.endingPosition == []) {
@@ -282,6 +291,7 @@ export default {
     },
     //REMEMBER TO RESET 2 IF PRESSED TWICE OR MORE
     setEndingPosition(row, col) {
+      this.visitedArray = [];
       this.mapArray[this.endingPosition[0]][this.endingPosition[1]] = 0;
       this.endingPosition = [row, col];
       this.mapArray.push(0);
@@ -323,12 +333,6 @@ export default {
       }
     },
     getBlockIcon(row, col) {
-      //check in array what the value is at row, col
-      // if (this.mapArray[row][col] == 2) return "mdi-map-marker";
-      // if (this.mapArray[row][col] == 3) return "mdi-crosshairs-gps";
-      if (this.hasVisited(row, col)) {
-        return "mdi-map-marker";
-      }
       //start position
       if (row == this.startingPosition[0] && col == this.startingPosition[1]) {
         return "mdi-map-marker";
@@ -338,32 +342,13 @@ export default {
       if (row == this.endingPosition[0] && col == this.endingPosition[1]) {
         return "mdi-crosshairs-gps";
       }
-
-      //wall
-      if (this.shortestPathActionType == "Create Wall" && col == 0) {
-        return "mdi-cancel";
-      }
-
-      return "mdi-map-marker";
     },
-    getActionMessage() {
-      if (this.shortestPathActionType == "Create Wall") {
-        return "Place wall";
-      }
-
-      if (this.shortestPathActionType == "Set Starting Position") {
-        return "Set Starting Position";
-      }
-
-      if (this.shortestPathActionType == "Set Destination") {
-        return "Set Destination";
-      }
+    changeMap(value) {
+      this.visitedArray = [];
+      this.mapArray = JSON.parse(JSON.stringify(value));
     },
-    saveArray() {
-      console.log(JSON.stringify(this.mapArray));
-    },
-    changeMap() {
-      this.mapArray = this.selectedArray.value;
+    changeTheme(value) {
+      this.selectedTheme = value;
     },
   },
   beforeMount() {

@@ -3,8 +3,8 @@
     <div class="ml-3">
       <h1>Welcome</h1>
       <p>
-        View shortest path algorithm, other algorithms, some learning material
-        and my personal page.
+        View shortest path algorithm, some learning material and my personal
+        page.
       </p>
       <br />
     </div>
@@ -23,6 +23,9 @@
             </v-card-text>
             <v-card-actions>
               <v-btn text color="primary">See Demonstration </v-btn>
+              <v-chip class="ma-2" color="accent" text-color="white">
+                INTERACT
+              </v-chip>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -72,23 +75,6 @@
               <br />
               <p class="text-h4 text--primary font-weight-light">About Me</p>
               <p>See more about me on my personal site.</p>
-              <v-row align-content="start">
-                <v-col>
-                  <v-hover v-slot="{ hover }">
-                    <v-card
-                      href="https://www.linkedin.com/in/murray-o-brien-ab1454206"
-                      class="pl-2"
-                      :elevation="hover ? '2' : '0'"
-                    >
-                      Linkedin:
-                      <v-icon class="pr-4" color="blue">mdi-linkedin</v-icon>
-                    </v-card>
-                  </v-hover>
-                </v-col>
-                <v-col>
-                  About me: <v-icon color="primary">mdi-text-box</v-icon>
-                </v-col>
-              </v-row>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="primary "> See page </v-btn>
