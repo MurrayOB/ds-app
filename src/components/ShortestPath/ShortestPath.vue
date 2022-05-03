@@ -76,38 +76,42 @@
       height="100%"
       width="100%"
     >
-      <div
-        class="grid-container--row"
-        v-for="(row, index) in mapArray.length"
-        :key="index"
-      >
-        <div v-for="(col, idx) in mapArray[0].length" :key="idx">
-          <!-- BLOCK COMPONENT -->
-          <div
-            class="block"
-            v-bind:class="getBlockClass(row - 1, col - 1)"
-            @click="performShortestPathAction(row - 1, col - 1)"
-          >
-            <!-- Numbers -->
-            <p v-if="selectedTheme == 0">{{ mapArray[index][idx] }}</p>
-            <!-- Tooltip -->
+      <div v-bind:class="{ 'grid-container-alt': selectedTheme == 1 }">
+        <div
+          class="grid-container--row"
+          v-for="(row, index) in mapArray.length"
+          :key="index"
+        >
+          <div v-for="(col, idx) in mapArray[0].length" :key="idx">
+            <!-- BLOCK COMPONENT -->
+            <div
+              class="block"
+              v-bind:class="[
+                { 'block-alt': selectedTheme == 1 },
+                getBlockClass(row - 1, col - 1),
+              ]"
+              @click="performShortestPathAction(row - 1, col - 1)"
+            >
+              <!-- Numbers -->
+              <p v-if="selectedTheme == 0">{{ mapArray[index][idx] }}</p>
+              <!-- Tooltip -->
+              <v-tooltip top v-if="selectedTheme !== 0">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    size="18"
+                    class="block-icon"
+                    v-bind:class="{ 'block-icon-dark': $vuetify.theme.dark }"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    {{ getBlockIcon(index, idx) }}
+                  </v-icon>
+                </template>
 
-            <v-tooltip top v-if="selectedTheme !== 0">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  size="18"
-                  class="block-icon"
-                  v-bind:class="{ 'block-icon-dark': $vuetify.theme.dark }"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  {{ getBlockIcon(index, idx) }}
-                </v-icon>
-              </template>
-
-              <span>Lat: {{ row }}, Lng: {{ col }}</span>
-            </v-tooltip>
+                <span>Lat: {{ row }}, Lng: {{ col }}</span>
+              </v-tooltip>
+            </div>
           </div>
         </div>
       </div>
@@ -273,7 +277,7 @@ export default {
       }
     },
     performShortestPathAction(row, col) {
-      if (this.shortestPathActionType == "Create Wall") {
+      if (this.shortestPathActionType == "Create/Destroy Wall") {
         this.setWall(row, col);
       }
 
@@ -313,11 +317,6 @@ export default {
       });
     },
     getBlockClass(row, col) {
-      //check in array what the value is at row, col
-      //0 = freely move
-      // if (value == 1) {
-      //   return "block-wall";
-      // }
       if (this.mapArray[row][col] == 1) {
         return "block-wall";
       }
@@ -333,18 +332,19 @@ export default {
       }
     },
     getBlockIcon(row, col) {
-      //start position
       if (row == this.startingPosition[0] && col == this.startingPosition[1]) {
         return "mdi-map-marker";
       }
-
-      //end position
       if (row == this.endingPosition[0] && col == this.endingPosition[1]) {
         return "mdi-crosshairs-gps";
+      }
+      if (this.mapArray[row][col] == 1) {
+        return "mdi-cancel";
       }
     },
     changeMap(value) {
       this.visitedArray = [];
+
       this.mapArray = JSON.parse(JSON.stringify(value));
     },
     changeTheme(value) {
